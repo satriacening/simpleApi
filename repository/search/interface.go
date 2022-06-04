@@ -2,6 +2,6 @@ package search
 
 import _entities "simpleApi/entities"
 
-type SearchUseCaseInterface interface {
+type SearchRepositoryInterface interface {
 	Search(input string) (_entities.Data, error)
 }
