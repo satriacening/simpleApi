@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+	"fmt"
 	_entities "simpleApi/entities"
 
 	"gorm.io/gorm"
@@ -43,15 +44,26 @@ func (ur *UserRepository) GetByName(name string) (_entities.User, error) {
 	return user, nil
 }
 
-func (ur *UserRepository) ReferalCode(code string) (string, error) {
+func (ur *UserRepository) ReferalCode(id int, code string) (string, error) {
 	var user _entities.User
 	var update _entities.User
 	tx := ur.database.Where("referal_code = ?", code).Find(&user)
+	fmt.Println("ini codenya : ", code)
+	fmt.Println("ini refernya : ", user)
 	if tx.RowsAffected == 0 {
 		return "", errors.New("invalid code")
 	}
+
+	ur.database.Where("id = ?", id).Find(&update)
+	if update.Reference != "" {
+		return "", errors.New("already have reference")
+	}
+	if code == update.ReferalCode {
+		return "", errors.New("failed: own code")
+	}
+
 	update.Reference = user.Name
-	save := ur.database.Save(&update)
+	save := ur.database.Where("id = ?", id).Updates(&update)
 	if save.Error != nil {
 		return "", errors.New("failed to insert referal code")
 	}

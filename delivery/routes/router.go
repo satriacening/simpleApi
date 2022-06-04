@@ -16,4 +16,5 @@ func RegisterUserPath(e *echo.Echo, uh *_userHandler.UserHandler) {
 	e.POST("/user", uh.RegisterUserHandler())
 	e.PUT("/user/me", uh.EditUserHandler(), _middlewares.JWTMiddleware())
 	e.GET("/user/:name", uh.GetByNameHandler())
+	e.PUT("/user/referal", uh.ReferalHandler(), _middlewares.JWTMiddleware())
 }
