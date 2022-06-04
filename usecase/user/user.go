@@ -51,7 +51,7 @@ func (uuc *UserUseCase) GetByName(name string) (_entities.User, error) {
 	user, err := uuc.userRepository.GetByName(name)
 	return user, err
 }
-func (uuc *UserUseCase) ReferalCode(code string) (string, error) {
-	referName, err := uuc.userRepository.ReferalCode(code)
+func (uuc *UserUseCase) ReferalCode(id int, code string) (string, error) {
+	referName, err := uuc.userRepository.ReferalCode(id, code)
 	return referName, err
 }

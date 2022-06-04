@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"net/http"
 	"simpleApi/delivery/helper"
 	_middlewares "simpleApi/delivery/middlewares"
@@ -68,12 +69,15 @@ func (uh *UserHandler) GetByNameHandler() echo.HandlerFunc {
 }
 func (uh *UserHandler) ReferalHandler() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var code string
-		c.Bind(code)
-		refer, err := uh.userUseCase.Refereal(code)
+		var user _entities.User
+		c.Bind(&user)
+		id, _ := _middlewares.ExtractToken(c)
+		code := user.ReferalCode
+		fmt.Println("code di handler : ", user.ReferalCode)
+		refer, err := uh.userUseCase.ReferalCode(id, code)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, helper.ResponseFailed(err.Error()))
 		}
-		return c.JSON(http.StatusOK, helper.ResponseSuccessWithoutData("Succses reference from %s", refer))
+		return c.JSON(http.StatusOK, helper.ResponseSuccess("Succses reference from %s", refer))
 	}
 }
