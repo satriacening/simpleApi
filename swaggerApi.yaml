@@ -1,0 +1,249 @@
+openapi: 3.0.0
+info:
+  description: |
+    This is a sample Petstore server.  You can find
+    out more about Swagger at
+    [http://swagger.io](http://swagger.io) or on
+    [irc.freenode.net, #swagger](http://swagger.io/irc/).
+  version: "1.0.0"
+  title: Simple API
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+servers:
+  # Added by API Auto Mocking Plugin
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/satriacening/simpeApi/1.0.0
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/satriacening/example/1.0.0
+  - url: 'https://petstore.swagger.io/v2'
+tags:
+  - name: user
+    description: Operations about user
+    externalDocs:
+      description: Find out more about our store
+      url: 'http://swagger.io'
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Create or register user
+      description: This can only be done by the logged in user.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: Created user object
+        required: true
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: failed
+  /login:
+    post:
+      tags:
+        - user
+      summary: Login user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: satriaputra
+                password:
+                  type: string
+                  example: satria123
+        description: Created user object
+        required: true
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: failed
+  /user/{name}:
+    get:
+      tags:
+        - user
+      summary: Get user by user name
+      operationId: getUserByName
+      parameters:
+        - name: name
+          in: path
+          description: The name that needs to be fetched. Use user1 for testing.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid username supplied
+        '404':
+          description: User not found
+  /user/me:
+    put:
+      security:
+      - bearerAuth: []
+      tags:
+        - user
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid user supplied
+        '404':
+          description: User not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: Updated user object
+        required: true
+  /user/referal:
+    put:
+      security:
+      - bearerAuth: []
+      tags:
+        - user
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid user supplied
+        '404':
+          description: User not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                referal_code:
+                  type: string
+                  example: UIiasdja
+        description: Updated user object
+        required: true
+  /search/{name}:
+    put:
+      tags:
+        - Public Api LOL
+      summary: Updated user
+      description: This can only be done by the logged in user.
+      parameters:
+        - name: name
+          in: path
+          schema:
+            type: integer
+            example: 1
+          description: The name that needs to be fetched. Use user1 for testing.
+          required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Data'
+        '400':
+          description: Invalid user supplied  
+        '404':
+          description: User not found
+      
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      xml:
+        name: User
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+    Data:
+      type: object
+      additionalProperties: false
+      properties:
+        version:
+          type: string
+          example: 6.14.4
+        id:
+          type: integer
+          example: 12
+        key:
+          type: string
+          example: Teemo
+        name:
+          type: string
+          example: Teemo
+        title:
+          type: string
+          example: the Darkin Blade
+        blurb:
+          type: object
+        info:
+          type: object
+        image:
+          type: object
+        tags:
+          type: object
+        partype:
+          type: string
+        stats:
+          type: object
+  requestBodies:
+    UserArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/User'
+      description: List of user object
+      required: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
