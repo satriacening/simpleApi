@@ -28,13 +28,13 @@ Untuk Open API bisa lihat selengkapnya [disini](https://app.swaggerhub.com/apis-
 Kloning project
 
 ```bash
-  $ git clone git@github.com:ALTA-BE7-SATRIA-PUTRA/group_project3.git
+  $ git clone https://github.com/satriacening/simpleApi
 ```
 
 Masuk ke direktori project
 
 ```bash
-  $ cd ~/project
+  $ cd ~/nama_project
 ```
 Buat `database` baru
 
